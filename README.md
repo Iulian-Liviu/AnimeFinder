@@ -12,3 +12,9 @@
 
 	Discord Username -> Iulian-Liviu#3173 
 
+#### Bugs 
+	- By now I have these problems CollectionView that I use, I wanted to make to feel like an infinite scroll
+	so I used RemainingItemsThreshold Propertie but the command gets called more that one time so thats it's a bad thing
+	because the API has rate limitig some will throw Exception. 
+
+	I will add more... You can also add by creating a new issue
