@@ -4,7 +4,7 @@
 	and I wanted to build an app base on my second passion (Anime) if you don't figured it 
 	out yet.
 
-	To more to say I need help to build this, by giving ideas, writing the code for the app.
+	To say more, I need help to build this, by giving ideas, writing the code for the app.
 
 
 	If you like the project idea, or have a great a idea of an feature, or you know some 
