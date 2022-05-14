@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AnimeFinder.ViewModels"
+             xmlns:model="clr-namespace:JikanDotNet;assembly=JikanDotNet"
+             x:Class="AnimeFinder.Views.MainPage"
+             BackgroundColor="#072227"
+             Padding="{OnPlatform Android=10}">
+
+
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel></local:MainPageViewModel>
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <!--#region Header Area-->
+        <Frame BackgroundColor="#6E3CBC" Margin="1" Padding="5">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Anime Finder" FontSize="Title" TextTransform="Uppercase" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                <Image Source="{Binding StatusImage}" HeightRequest="20" WidthRequest="20" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" ></Image>
+            </StackLayout>
+        </Frame>
+        <!--#endregion-->
+        <!--#region Anime-->
+        <StackLayout IsVisible="{Binding IsInternetAvailable}"
+            Orientation="Horizontal">
+            <Label Text="Popular Anime" TextTransform="Uppercase" FontAttributes="Bold" FontSize="Medium"></Label>
+            <ActivityIndicator IsRunning="{Binding IsDataLoading}" IsVisible="{Binding IsDataLoading}" HorizontalOptions="EndAndExpand" HeightRequest="15" WidthRequest="15" Color="#BA135D"/>
+        </StackLayout>
+        <Line IsVisible="{Binding IsInternetAvailable}" HeightRequest="1" BackgroundColor="#35858B"></Line>
+        <CollectionView IsVisible="{Binding IsInternetAvailable}" ItemsSource="{Binding TopAnime}" ItemsLayout="HorizontalList" SelectionMode="Single" SelectionChangedCommand="{Binding ItemTappedCommand}" SelectedItem="{Binding SelectedAnime}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Anime">
+                    <Grid Margin="10" Padding="10" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Frame HeightRequest="150" WidthRequest="100" Padding="0" Margin="10" Grid.Column="0" Grid.Row="0">
+                            <Image Aspect="AspectFill" x:Name="ImageLoaded">
+
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding Images.JPG.ImageUrl}" CachingEnabled="True" CacheValidity="200"/>
+                                </Image.Source>
+                            </Image>
+                        </Frame>
+                        <Label Text="{Binding Title}" Grid.Column="0" Grid.Row="1" TextColor="White" Margin="2" HorizontalTextAlignment="Center" FontAutoScalingEnabled="True" LineBreakMode="TailTruncation" MaxLines="1"></Label>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--#endregion-->
+        <!--#region Manga-->
+        <!-- MANGA VIEW-->
+        <StackLayout Orientation="Horizontal" IsVisible="{Binding IsInternetAvailable}">
+            <Label Text="Popular manga" TextTransform="Uppercase" FontAttributes="Bold" FontSize="Medium"></Label>
+            <ActivityIndicator IsRunning="{Binding IsDataLoading}" IsVisible="{Binding IsDataLoading}" HorizontalOptions="EndAndExpand" HeightRequest="15" WidthRequest="15" Color="#BA135D"/>
+        </StackLayout>
+        <Line IsVisible="{Binding IsInternetAvailable}" HeightRequest="1" BackgroundColor="#35858B"></Line>
+        <CollectionView IsVisible="{Binding IsInternetAvailable}" ItemsSource="{Binding TopManga}" ItemsLayout="HorizontalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Manga">
+                    <Grid Margin="10" Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Frame HeightRequest="150" WidthRequest="100" Padding="0" Margin="10" Grid.Column="0" Grid.Row="0">
+                            <Image Aspect="AspectFill" x:Name="ImageLoaded">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding Images.JPG.ImageUrl}" CachingEnabled="True" CacheValidity="200"/>
+                                </Image.Source>
+                            </Image>
+                        </Frame>
+                        <Label Text="{Binding Title}" Grid.Column="0" Grid.Row="1" TextColor="White" Margin="2" HorizontalTextAlignment="Center" FontAutoScalingEnabled="True" LineBreakMode="TailTruncation" MaxLines="1"></Label>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!--#endregion-->
+        <!--#region UpComing Anime-->
+        <StackLayout Orientation="Horizontal" IsVisible="{Binding IsInternetAvailable}">
+            <Label Text="Upcoming Anime" TextTransform="Uppercase" FontAttributes="Bold" FontSize="Medium"></Label>
+            <ActivityIndicator IsRunning="{Binding IsDataLoading}" IsVisible="{Binding IsDataLoading}" HorizontalOptions="EndAndExpand" HeightRequest="15" WidthRequest="15" Color="#BA135D"/>
+        </StackLayout>
+        <Line IsVisible="{Binding IsInternetAvailable}" HeightRequest="1" BackgroundColor="#35858B"></Line>
+        <CollectionView IsVisible="{Binding IsInternetAvailable}" ItemsSource="{Binding UpComingAnime}" ItemsLayout="HorizontalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Anime">
+                    <Grid Margin="10" Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Frame HeightRequest="150" WidthRequest="100" Padding="0" Margin="10" Grid.Column="0" Grid.Row="0">
+                            <Image Aspect="AspectFill" x:Name="ImageLoaded">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding Images.JPG.ImageUrl}" CachingEnabled="True" CacheValidity="200"/>
+                                </Image.Source>
+                            </Image>
+                        </Frame>
+                        <Label Text="{Binding Title}" Grid.Column="0" Grid.Row="1" TextColor="White" Margin="2" HorizontalTextAlignment="Center" FontAutoScalingEnabled="True" LineBreakMode="TailTruncation" MaxLines="1"></Label>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--#endregion-->
+
+    </StackLayout>
+
+</ContentPage>
