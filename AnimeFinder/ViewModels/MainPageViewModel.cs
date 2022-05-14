@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,6 +14,7 @@ namespace AnimeFinder.ViewModels
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
+        private readonly Jikan jikan = new Jikan();
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void RaisePropertyChanged([CallerMemberName] string name = "")
@@ -20,13 +22,14 @@ namespace AnimeFinder.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        // One time check Network Activity
         public MainPageViewModel()
         {
+            //Assign commands in below method
             AsignCommands();
-            IsDataLoading = false;
             CheckIfInternetIsAvailable();
         }
-
+        #region Data for the view
         private ObservableCollection<Anime> topAnime;
         public ObservableCollection<Anime> TopAnime
         {
@@ -62,15 +65,35 @@ namespace AnimeFinder.ViewModels
             }
         }
 
-
-        private bool isDataLoading;
-        public bool IsDataLoading
+        private bool isMangaDataLoading;
+        public bool IsMangaDataLoading
         {
-            get => isDataLoading;
+            get => isMangaDataLoading;
             set
             {
-                isDataLoading = value;
-                RaisePropertyChanged(nameof(IsDataLoading));
+                isMangaDataLoading = value;
+                RaisePropertyChanged(nameof(IsMangaDataLoading));
+            }
+        }
+        private bool isAnimeDataLoading;
+        public bool IsAnimeDataLoading
+        {
+            get => isAnimeDataLoading;
+            set
+            {
+                isAnimeDataLoading = value;
+                RaisePropertyChanged(nameof(IsAnimeDataLoading));
+            }
+        }
+
+        private bool isUpcomingAnimeDataLoading;
+        public bool IsUpComingAnimeDataLoading
+        {
+            get => isUpcomingAnimeDataLoading;
+            set
+            {
+                isUpcomingAnimeDataLoading = value;
+                RaisePropertyChanged(nameof(IsUpComingAnimeDataLoading));
             }
         }
 
@@ -85,13 +108,27 @@ namespace AnimeFinder.ViewModels
             }
         }
 
+        #endregion
 
+        #region Commands are here
         public ICommand ItemTappedCommand { get; set; }
+        public ICommand LoadMoreAnimes { get; set; }
+        #endregion
+
+        #region Private fiels
+
+        private int AnimePages = 0;
+        private int CurrentAnimePage;
+
+        #endregion
+
+        #region Methods are here
 
         private async void GetTopAnimesAsync()
         {
-            IsDataLoading = true;
-            var jikan = new Jikan();
+            IsAnimeDataLoading = true;
+            IsMangaDataLoading = true;
+            isUpcomingAnimeDataLoading = true;
 
             var topanime = await jikan.GetTopAnimeAsync();
             var topmanga = await jikan.GetTopMangaAsync();
@@ -100,9 +137,43 @@ namespace AnimeFinder.ViewModels
             TopAnime = new ObservableCollection<Anime>(topanime.Data);
             TopManga = new ObservableCollection<Manga>(topmanga.Data);
             UpComingAnime = new ObservableCollection<Anime>(upcoming.Data);
-            IsDataLoading = false;
+
+            AnimePages = topanime.Pagination.LastVisiblePage;
+            CurrentAnimePage = topanime.Pagination.CurrentPage;
+            IsAnimeDataLoading = false;
+            IsMangaDataLoading = false;
+            IsUpComingAnimeDataLoading = false;
         }
 
+        private async void GetTopAnimesByPageAsync()
+        {
+
+            // TODO : Solve BUG Loading More items 
+            try
+            {
+                IsAnimeDataLoading = true;
+
+                //Using the RemainingItemsThreshold setted to any value (this will be called n times and will throw an error )
+                //TODO : Find a way to solve this 
+                var topanime = await jikan.GetTopAnimeAsync(++CurrentAnimePage);
+
+
+                foreach (var item in topanime.Data)
+                {
+                    TopAnime.Add(item);
+                }
+
+                IsAnimeDataLoading = false;
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"{ex.Message}", "ok");
+            }
+        }
+
+
+        #endregion
+        #region Selecting Items
         private Anime selectedAnime;
         public Anime SelectedAnime
         {
@@ -113,13 +184,15 @@ namespace AnimeFinder.ViewModels
                 RaisePropertyChanged(nameof(SelectedAnime));
             }
         }
-
+        #endregion
+        // Here we asign commands 
         void AsignCommands()
         {
             ItemTappedCommand = new Command(ShowToastAlert);
+            LoadMoreAnimes = new Command(GetTopAnimesByPageAsync);
         }
 
-
+        // TODO : Remove this and a real Detail Page
         async void ShowToastAlert()
         {
             if (SelectedAnime is not null)
@@ -129,7 +202,8 @@ namespace AnimeFinder.ViewModels
             }
 
         }
-
+        // NEED CHECKING
+        #region Internet Check
         private bool isInternetAvailable;
         public bool IsInternetAvailable
         {
@@ -141,9 +215,12 @@ namespace AnimeFinder.ViewModels
             }
         }
 
+
+        // TODO : FIND A WAY TO CHECK IF NETWORK IS AVAILABLE (ALWAYS)
+        // Now just work only at opening the app
         void CheckIfInternetIsAvailable()
         {
-            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+
             var current = Connectivity.NetworkAccess;
             if (current == NetworkAccess.Internet)
             {
@@ -157,10 +234,6 @@ namespace AnimeFinder.ViewModels
                 StatusImage = ImageSource.FromFile("no_internet.png");
             }
         }
-
-        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
