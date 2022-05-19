@@ -15,6 +15,19 @@
 #### Bugs 
 	- By now I have these problems CollectionView that I use, I wanted to make to feel like an infinite scroll
 	so I used RemainingItemsThreshold Propertie but the command gets called more that one time so thats it's a bad thing
-	because the API has rate limitig some will throw Exception. 
+	because the API has rate limitig some will throw Exception.  -> Solved
+
+	- Still searching...
+	
+
 
 	I will add more... You can also add by creating a new issue
+
+#### Features
+	- Lazy loading, image caching, infinite scroll(not really)
+	- Simple UI, easy to use
+
+##### To be added
+	- Master Detail Page
+	- Settings Page
+	

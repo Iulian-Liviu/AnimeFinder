@@ -5,6 +5,7 @@
              xmlns:model="clr-namespace:JikanDotNet;assembly=JikanDotNet"
              x:Class="AnimeFinder.Views.MainPage"
              BackgroundColor="#072227"
+             
              Padding="{OnPlatform Android=10}">
 
 
@@ -27,12 +28,12 @@
             <ActivityIndicator IsRunning="{Binding IsAnimeDataLoading}" IsVisible="{Binding IsAnimeDataLoading}" HorizontalOptions="EndAndExpand" HeightRequest="15" WidthRequest="15" Color="#BA135D"/>
         </StackLayout>
         <Line IsVisible="{Binding IsInternetAvailable}" HeightRequest="1" BackgroundColor="#35858B"></Line>
-        <!-- BUG when trying to load more items -->
+        <!-- BUG when trying to load more items  : Solved -->
         <!-- When using RemainingItemsThreshold the command that lives in the back will be called n this and I can't figure it out why it does that-->
-        <CollectionView IsVisible="{Binding IsInternetAvailable}" ItemsSource="{Binding TopAnime}" ItemsLayout="HorizontalList" SelectionMode="Single" SelectionChangedCommand="{Binding ItemTappedCommand}" SelectedItem="{Binding SelectedAnime}" RemainingItemsThreshold="2" RemainingItemsThresholdReachedCommand="{Binding LoadMoreAnimes}">
+        <CollectionView IsVisible="{Binding IsInternetAvailable}" ItemsSource="{Binding TopAnime}" ItemsLayout="HorizontalList" RemainingItemsThreshold="{Binding RemainingItems}" RemainingItemsThresholdReachedCommand="{Binding LoadMoreAnimes}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Anime">
-                    <Grid Margin="10" Padding="10" >
+                    <Grid Margin="10" Padding="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
@@ -41,8 +42,13 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
+
                         <Frame HeightRequest="150" WidthRequest="100" Padding="0" Margin="10" Grid.Column="0" Grid.Row="0">
                             <Image Aspect="AspectFill" x:Name="ImageLoaded">
+
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=AnimeTappedCommand}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
 
                                 <Image.Source>
                                     <UriImageSource Uri="{Binding Images.JPG.ImageUrl}" CachingEnabled="True" CacheValidity="200"/>
@@ -63,7 +69,7 @@
             <ActivityIndicator IsRunning="{Binding IsMangaDataLoading}" IsVisible="{Binding IsMangaDataLoading}" HorizontalOptions="EndAndExpand" HeightRequest="15" WidthRequest="15" Color="#BA135D"/>
         </StackLayout>
         <Line IsVisible="{Binding IsInternetAvailable}" HeightRequest="1" BackgroundColor="#35858B"></Line>
-        <CollectionView IsVisible="{Binding IsInternetAvailable}" ItemsSource="{Binding TopManga}" ItemsLayout="HorizontalList">
+        <CollectionView IsVisible="{Binding IsInternetAvailable}" ItemsSource="{Binding TopManga}" ItemsLayout="HorizontalList" RemainingItemsThreshold="{Binding RemainingItems}" RemainingItemsThresholdReachedCommand="{Binding LoadMoreManga}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Manga">
                     <Grid Margin="10" Padding="10">
@@ -77,6 +83,9 @@
 
                         <Frame HeightRequest="150" WidthRequest="100" Padding="0" Margin="10" Grid.Column="0" Grid.Row="0">
                             <Image Aspect="AspectFill" x:Name="ImageLoaded">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=MangaTappedCommand}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
                                 <Image.Source>
                                     <UriImageSource Uri="{Binding Images.JPG.ImageUrl}" CachingEnabled="True" CacheValidity="200"/>
                                 </Image.Source>
@@ -109,6 +118,9 @@
 
                         <Frame HeightRequest="150" WidthRequest="100" Padding="0" Margin="10" Grid.Column="0" Grid.Row="0">
                             <Image Aspect="AspectFill" x:Name="ImageLoaded">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}}, Path=UpComingAnimeTappedCommand}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
                                 <Image.Source>
                                     <UriImageSource Uri="{Binding Images.JPG.ImageUrl}" CachingEnabled="True" CacheValidity="200"/>
                                 </Image.Source>
