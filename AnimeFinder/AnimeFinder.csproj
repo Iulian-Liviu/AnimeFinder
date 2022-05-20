@@ -57,4 +57,25 @@
 	  <PackageReference Include="JikanDotNet" Version="2.1.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\MangaDetailPage.xaml.cs">
+	    <DependentUpon>MangaDetailPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AnimeDetailPage.xaml.cs">
+	    <DependentUpon>AnimeDetailPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="AppShell.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MangaDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AnimeDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

@@ -28,6 +28,6 @@
 	- Simple UI, easy to use
 
 ##### To be added
-	- Master Detail Page
-	- Settings Page
+	- Master Detail Page (Manga Detail (in build), Anime Page(in build))
+	- Settings Page (in build)
 	

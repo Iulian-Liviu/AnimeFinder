@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using AnimeFinder.Views;
 using JikanDotNet;
 
 namespace AnimeFinder.ViewModels
@@ -349,7 +350,14 @@ namespace AnimeFinder.ViewModels
             {
                 // TODO : Implement a  real Detail page
 
-                await DisplayMessage("Works", $"{anime.Title}", "Ok");
+                //await DisplayMessage("Works", $"{anime.Title}", "Ok");
+
+
+
+                await Shell.Current.GoToAsync(nameof(AnimeDetailPage), new Dictionary<string, object>
+                {
+                    { "Anime", anime },
+                });
 
             }
         }
@@ -359,7 +367,12 @@ namespace AnimeFinder.ViewModels
             {
                 // TODO : Implement a  real Detail page
 
-                await DisplayMessage("Works", $"{manga.Title}", "Ok");
+                // await DisplayMessage("Works", $"{manga.Title}", "Ok");
+
+                await Shell.Current.GoToAsync(nameof(MangaDetailPage), new Dictionary<string, object>
+                {
+                    { "Manga", manga }
+                });
 
             }
         }

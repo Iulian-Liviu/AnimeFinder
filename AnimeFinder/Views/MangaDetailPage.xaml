@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AnimeFinder.Views.MangaDetailPage"
+             Title="{Binding Manga.Title}"
+             
+             xmlns:jikan="clr-namespace:JikanDotNet;assembly=JikanDotNet"
+             xmlns:local="clr-namespace:AnimeFinder.ViewModels">
+
+
+    <ContentPage.BindingContext>
+        <local:MangaDetailViewModel/>
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Frame Padding="0">
+                <Image Source="{Binding Manga.Images.JPG.MediumImageUrl}" Aspect="AspectFill"></Image>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
