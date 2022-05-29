@@ -10,19 +10,14 @@ using System.Threading.Tasks;
 namespace AnimeFinder.ViewModels;
 
 [QueryProperty(nameof(Manga), "Manga")]
-public class MangaDetailViewModel : INotifyPropertyChanged
+public class MangaDetailViewModel : BaseViewModel
 {
-    public event PropertyChangedEventHandler PropertyChanged;
-
     public MangaDetailViewModel()
     {
-
     }
 
-    private void RaisePropertyChanged([CallerMemberName] string name = " ")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
+
+
 
     Manga manga;
     public Manga Manga

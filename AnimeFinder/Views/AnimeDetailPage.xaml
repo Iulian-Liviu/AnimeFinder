@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AnimeFinder.Views.AnimeDetailPage"
-             Title="{Binding Anime.Title}"
-             
+             Title="{Binding Anime.TitleEnglish}"    
              xmlns:jikan="clr-namespace:JikanDotNet;assembly=JikanDotNet"
              xmlns:local="clr-namespace:AnimeFinder.ViewModels">
 
@@ -12,12 +11,87 @@
         <local:AnimeDetailViewModel/>
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout>
-            <Frame Padding="0">
-                <Image Source="{Binding Anime.Images.JPG.MediumImageUrl}" Aspect="AspectFill"></Image>
+    <ScrollView Margin="20">
+        <StackLayout>
+            <AbsoluteLayout HeightRequest="500" >
+                <Frame Padding="0" Background="Transparent" BorderColor="Transparent" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" >
+                    <Image x:Name="image" Source="{Binding Anime.Images.JPG.LargeImageUrl}" Aspect="Center"></Image>
+                </Frame>
+                <ActivityIndicator IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" AbsoluteLayout.LayoutBounds="0.5,0.5,20,20" AbsoluteLayout.LayoutFlags="PositionProportional" Color="BlueViolet"></ActivityIndicator>
+            </AbsoluteLayout>
+
+            <Frame Background="Transparent" Margin="0" Padding="10" BorderColor="Transparent" >
+                <StackLayout Spacing="7" Padding="0" Margin="5">
+                    <Label VerticalOptions="Center" HorizontalOptions="Center" FontSize="Medium" Text="{Binding Anime.Title}"></Label>
+                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Anime.TitleJapanese}"></Label>
+                </StackLayout>
             </Frame>
-            
-        </VerticalStackLayout>
+
+            <StackLayout Spacing="8">
+
+                <Frame Background="Transparent">
+                    <StackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="{Binding Anime.Episodes, StringFormat='Episodes: {0}'}"></Label>
+                            <Label Text="{Binding Anime.Score, StringFormat='Score: {0}'}"></Label>
+                            <Label Text="{Binding Anime.Rank, StringFormat='Rank: {0}'}"></Label>
+
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding Anime.Rating, StringFormat='Rating: {0}'}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="{Binding Anime.Popularity, StringFormat='Popularity: {0}'}"></Label>
+                            <Label Text="{Binding Anime.Year, StringFormat='Year: {0}'}"></Label>
+                            <Label Text="{Binding Anime.Season, StringFormat='Season: {0}'}"></Label>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Background="Transparent">
+                    <CollectionView ItemsSource="{Binding Anime.Licensors}" ItemsLayout="HorizontalList" >
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="jikan:MalUrl">
+                                <HorizontalStackLayout Margin="2" Padding="2">
+                                    <Label Text="{Binding Name}" TextTransform="Uppercase"></Label>
+                                    <Label Text=","></Label>
+
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+
+                <Frame Background="Transparent">
+                    <CollectionView ItemsSource="{Binding Anime.Producers}" ItemsLayout="HorizontalList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="jikan:MalUrl">
+                                <HorizontalStackLayout Margin="3" Padding="2">
+                                    <Label Text="{Binding Name}" TextTransform="Uppercase"></Label>
+                                    <Label Text=","></Label>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+
+            </StackLayout>
+
+            <StackLayout>
+                <VerticalStackLayout Margin="10">
+                    <Label Text="Synopsis" ></Label>
+                    <Line HeightRequest="1" BackgroundColor="#35858B" Margin="1"></Line>
+                </VerticalStackLayout>
+                <Frame Background="Transparent" Margin="5" Padding="10">
+                    <StackLayout>
+                        <Label Text="{Binding Anime.Synopsis}">
+                        </Label>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+        </StackLayout>
+
     </ScrollView>
 </ContentPage>

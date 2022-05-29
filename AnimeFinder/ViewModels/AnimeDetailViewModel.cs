@@ -10,18 +10,12 @@ using System.Threading.Tasks;
 namespace AnimeFinder.ViewModels;
 
 [QueryProperty(nameof(Anime), "Anime")]
-public class AnimeDetailViewModel : INotifyPropertyChanged
+public class AnimeDetailViewModel : BaseViewModel
 {
-    public event PropertyChangedEventHandler PropertyChanged;
 
     public AnimeDetailViewModel()
     {
 
-    }
-
-    private void RaisePropertyChanged([CallerMemberName] string name = " ")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     Anime anime;

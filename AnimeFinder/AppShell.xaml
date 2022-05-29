@@ -4,6 +4,7 @@
        xmlns:views="clr-namespace:AnimeFinder.Views"
        x:Class="AnimeFinder.AppShell">
 
+
     <ShellContent ContentTemplate="{DataTemplate views:MainPage}">
 
     </ShellContent>

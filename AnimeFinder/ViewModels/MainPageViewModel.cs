@@ -13,15 +13,9 @@ using JikanDotNet;
 
 namespace AnimeFinder.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : BaseViewModel
     {
         private readonly Jikan jikan = new Jikan();
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
 
         // One time check Network Activity
         public MainPageViewModel()

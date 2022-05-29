@@ -10,6 +10,7 @@ public partial class AnimeDetailPage : ContentPage
     {
         InitializeComponent();
         BindingContext = new AnimeDetailViewModel();
+
     }
 
 }
