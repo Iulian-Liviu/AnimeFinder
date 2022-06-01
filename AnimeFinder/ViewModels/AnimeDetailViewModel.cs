@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace AnimeFinder.ViewModels;
 
-[QueryProperty(nameof(Anime), "Anime")]
-public class AnimeDetailViewModel : BaseViewModel
+public class AnimeDetailViewModel : BaseViewModel, IQueryAttributable
 {
 
     public AnimeDetailViewModel()
@@ -18,14 +17,25 @@ public class AnimeDetailViewModel : BaseViewModel
 
     }
 
-    Anime anime;
-    public Anime Anime
+    public Anime Anime { get; private set; } = new Anime();
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        get => anime;
+        Anime = query["Anime"] as Anime;
+        RaisePropertyChanged("Anime");
+    }
+
+    private bool showKnownAs;
+    public bool ShowKnownAs
+    {
+        get => showKnownAs;
+
         set
         {
-            anime = value;
+            showKnownAs = value;
             RaisePropertyChanged();
         }
     }
+
+
 }

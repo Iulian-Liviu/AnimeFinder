@@ -8,8 +8,8 @@ public partial class AnimeDetailPage : ContentPage
 {
     public AnimeDetailPage()
     {
-        InitializeComponent();
         BindingContext = new AnimeDetailViewModel();
+        InitializeComponent();
 
     }
 

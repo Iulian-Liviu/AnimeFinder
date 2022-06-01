@@ -345,9 +345,6 @@ namespace AnimeFinder.ViewModels
                 // TODO : Implement a  real Detail page
 
                 //await DisplayMessage("Works", $"{anime.Title}", "Ok");
-
-
-
                 await Shell.Current.GoToAsync(nameof(AnimeDetailPage), new Dictionary<string, object>
                 {
                     { "Anime", anime },

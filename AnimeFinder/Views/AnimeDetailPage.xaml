@@ -18,22 +18,35 @@
                     <Image x:Name="image" Source="{Binding Anime.Images.JPG.LargeImageUrl}" Aspect="Center"></Image>
                 </Frame>
                 <ActivityIndicator IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" AbsoluteLayout.LayoutBounds="0.5,0.5,20,20" AbsoluteLayout.LayoutFlags="PositionProportional" Color="BlueViolet"></ActivityIndicator>
+
             </AbsoluteLayout>
 
             <Frame Background="Transparent" Margin="0" Padding="10" BorderColor="Transparent" >
                 <StackLayout Spacing="7" Padding="0" Margin="5">
                     <Label VerticalOptions="Center" HorizontalOptions="Center" FontSize="Medium" Text="{Binding Anime.Title}"></Label>
                     <Label VerticalOptions="Center" HorizontalOptions="Center" Text="{Binding Anime.TitleJapanese}"></Label>
+
+                    <VerticalStackLayout IsVisible="{Binding ShowKnownAs}">
+                        <Label TextDecorations="Underline">Also known as</Label>
+
+                        <CollectionView ItemsSource="{Binding Anime.TitleSynonyms}" SelectionMode="None" Margin="10" EmptyView="">
+                        </CollectionView>
+                    </VerticalStackLayout>
+
                 </StackLayout>
             </Frame>
 
             <StackLayout Spacing="8">
 
+
                 <Frame Background="Transparent">
                     <StackLayout>
-                        <HorizontalStackLayout Spacing="8">
-                            <Label Text="{Binding Anime.Episodes, StringFormat='Episodes: {0}'}"></Label>
-                            <Label Text="{Binding Anime.Score, StringFormat='Score: {0}'}"></Label>
+                        <VerticalStackLayout Margin="0,1,0,5">
+                            <Label Text="General"  FontAttributes="None" TextDecorations="Underline" HorizontalOptions="Center"></Label>
+                        </VerticalStackLayout>
+                        <HorizontalStackLayout Spacing="9">
+                            <Label Text="{Binding Anime.Episodes, StringFormat='Episodes: {0},'}"></Label>
+                            <Label Text="{Binding Anime.Score, StringFormat='Score: {0},'}"></Label>
                             <Label Text="{Binding Anime.Rank, StringFormat='Rank: {0}'}"></Label>
 
                         </HorizontalStackLayout>
@@ -42,38 +55,46 @@
                             <Label Text="{Binding Anime.Rating, StringFormat='Rating: {0}'}"></Label>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Spacing="8">
-                            <Label Text="{Binding Anime.Popularity, StringFormat='Popularity: {0}'}"></Label>
-                            <Label Text="{Binding Anime.Year, StringFormat='Year: {0}'}"></Label>
+                            <Label Text="{Binding Anime.Popularity, StringFormat='Popularity: {0},'}"></Label>
+                            <Label Text="{Binding Anime.Year, StringFormat='Year: {0},'}"></Label>
                             <Label Text="{Binding Anime.Season, StringFormat='Season: {0}'}"></Label>
                         </HorizontalStackLayout>
                     </StackLayout>
                 </Frame>
 
                 <Frame Background="Transparent">
-                    <CollectionView ItemsSource="{Binding Anime.Licensors}" ItemsLayout="HorizontalList" >
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="jikan:MalUrl">
-                                <HorizontalStackLayout Margin="2" Padding="2">
-                                    <Label Text="{Binding Name}" TextTransform="Uppercase"></Label>
-                                    <Label Text=","></Label>
-
-                                </HorizontalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                    <StackLayout>
+                        <VerticalStackLayout Margin="0,1,0,5">
+                            <Label Text="Licensors"  FontAttributes="None" TextDecorations="Underline" HorizontalOptions="Center"></Label>
+                        </VerticalStackLayout>
+                        <CollectionView ItemsSource="{Binding Anime.Licensors}"  >
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="jikan:MalUrl">
+                                    <HorizontalStackLayout Margin="2" Padding="2" Spacing="9">
+                                        <Label Text="{Binding Name}" TextTransform="Uppercase"></Label>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
                 </Frame>
 
                 <Frame Background="Transparent">
-                    <CollectionView ItemsSource="{Binding Anime.Producers}" ItemsLayout="HorizontalList">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="jikan:MalUrl">
-                                <HorizontalStackLayout Margin="3" Padding="2">
-                                    <Label Text="{Binding Name}" TextTransform="Uppercase"></Label>
-                                    <Label Text=","></Label>
-                                </HorizontalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                    <StackLayout>
+                        <VerticalStackLayout Margin="0,1,0,5">
+                            <Label HorizontalOptions="Center" Text="Producers" FontAttributes="None" TextDecorations="Underline"></Label>
+                        </VerticalStackLayout>
+
+                        <CollectionView ItemsSource="{Binding Anime.Producers}" >
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="jikan:MalUrl">
+                                    <HorizontalStackLayout Margin="3" Padding="2" Spacing="9">
+                                        <Label Text="{Binding Name}" TextTransform="Uppercase"></Label>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
                 </Frame>
 
             </StackLayout>
@@ -81,7 +102,7 @@
             <StackLayout>
                 <VerticalStackLayout Margin="10">
                     <Label Text="Synopsis" ></Label>
-                    <Line HeightRequest="1" BackgroundColor="#35858B" Margin="1"></Line>
+                    <Line HeightRequest="1" BackgroundColor="White" Margin="1"></Line>
                 </VerticalStackLayout>
                 <Frame Background="Transparent" Margin="5" Padding="10">
                     <StackLayout>
